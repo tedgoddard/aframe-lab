@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>WebXR Sandbox</title>
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js">
+    </script>
+</head>
+
+<body>
+
+    <a-scene>
+        <a-entity id="rig" movement-controls="fly: false;">
+            <a-camera id="camera"></a-camera>
+            <a-entity hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
+            <a-entity hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
+        </a-entity>
+
+        <a-entity environment="ground: flat; grid: 1x1; skyType: gradient; skyColor: #0f107f; horizonColor: #0a0a0a">
+        </a-entity>
+    </a-scene>
+
+</body>
+
+</html>
