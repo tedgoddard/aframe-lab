@@ -98,13 +98,11 @@
 
 <!--   <a-entity laser-controls raycaster="lineColor: white; lineOpacity: 0.5"></a-entity>
  -->
-  <a-entity id="rig"
-          movement-controls
-          position="25 0 25">
-  <a-entity camera
-            position="0 1.6 0"
-            look-controls="pointerLockEnabled: true"></a-entity>
-</a-entity>
+        <a-entity id="rig" movement-controls="fly: false;">
+            <a-camera id="camera"></a-camera>
+            <a-entity hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
+            <a-entity hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
+        </a-entity>
 
 </a-scene>
 
