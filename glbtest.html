@@ -49,7 +49,7 @@
     init: function () {
       this.el.addEventListener('model-loaded', () => {
         const obj = this.el.getObject3D('mesh');
-        console.log("LOADED ", mesh)
+        console.log("LOADED ", obj)
         obj.traverse(node => {
           if (node.name.indexOf('ship') !== -1) {
             node.material.color.set('red');
