@@ -44,16 +44,19 @@
 
     }
   })
-  
+ 
+  window.morphs = {}
+ 
   AFRAME.registerComponent('traverse-object', {
     init: function () {
       this.el.addEventListener('model-loaded', () => {
-        const obj = this.el.getObject3D('mesh');
+        const obj = this.el.object3D.traverse
         console.log("LOADED ", obj)
-        obj.traverse(node => {
-          if (node.name.indexOf('ship') !== -1) {
-            node.material.color.set('red');
-          }
+        obj.traverse( obj => {
+          if (obj.material?.morphTargets) {
+            window.morphs[obj.name] = obj
+            console.log(obj.id, obj.name, obj.morphTargetDictionary)
+          } 
         });
       });
     }
@@ -111,8 +114,8 @@
     animation__X2="property: klein.h; to: 0.2; dur: 10; startEvents: lipX"
   >
   </a-entity>
-  <a-asset-item id="dudeModel" src="models/Male_01_V01.glb" response-type="arraybuffer"></a-asset-item>
-  <a-entity id="dude" gltf-model="#dudeModel" traverse-object></a-entity>
+  <a-asset-item id="theModel" src="models/Female_04_V01.glb" response-type="arraybuffer"></a-asset-item>
+  <a-entity id="avatar" gltf-model="#theModel" traverse-object></a-entity>
   
   <a-entity id="rig" movement-controls="fly: false;">
     <a-camera id="camera"></a-camera>
