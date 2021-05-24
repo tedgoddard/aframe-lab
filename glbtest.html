@@ -45,15 +45,54 @@
     }
   })
  
+  const lipMapping = {
+    lipA: "PP",
+    lipB: "SS",
+    lipC: "E",
+    lipD: "aa",
+    lipE: "RR",
+    lipF: "U",
+    lipG: "FF",
+    lipH: "aa",
+    lipX: "aa",
+  }
+
   AFRAME.registerComponent('character', {
     schema: {
-      color: {
-        default: '#EEEEEE'
-      },
       mouthSmile: {
         default: 0
       },
       mouthOpen: {
+        default: 0
+      },
+      mouthPucker: {
+        default: 0
+      },
+      lipA: {
+        default: 0
+      },
+      lipB: {
+        default: 0
+      },
+      lipC: {
+        default: 0
+      },
+      lipD: {
+        default: 0
+      },
+      lipE: {
+        default: 0
+      },
+      lipF: {
+        default: 0
+      },
+      lipG: {
+        default: 0
+      },
+      lipH: {
+        default: 0
+      },
+      lipX: {
         default: 0
       },
     },
@@ -63,32 +102,37 @@
 
     update: function (oldData) {
       const el = this.el
+      const character = morphs.Wolf3D_Head
+      if (!character) {
+        return
+      }
+      for (const key in this.data) {
+        const mappedKey = lipMapping[key]
+        if (mappedKey) {
+          if (this.data[key] == oldData[key]) {
+            //lip sync positions are exclusive
+            this.data[key] = 0
+          }
+        }
+        const morphKey = mappedKey ? `viseme_${mappedKey}` : key
+        character.morphTargetInfluences[morphs.Wolf3D_Head.morphTargetDictionary[morphKey]] = this.data[key]
+      }
     }
   })
   
   window.morphs = {}
  
-  const morphMeshes = [];
-
   AFRAME.registerComponent('traverse-object', {
     init: function () {
-      this.el.addEventListener('model-loaded', () => {
+      const sceneEl = this.el
+      sceneEl.addEventListener('model-loaded', () => {
         const mobj = this.el.object3D
-        console.log("LOADED ", mobj)
-        
-        mobj.traverse((node) => {
-          if (node.isMesh && node.morphTargetInfluences) {
-            morphMeshes.push(node);
-          }
-        })
-
         mobj.traverse( obj => {
           if (obj.material?.morphTargets) {
             window.morphs[obj.name] = obj
-            console.log(obj.id, obj.name, obj.morphTargetDictionary)
           } 
         })
-        morphs.Wolf3D_Head.morphTargetInfluences[morphs.Wolf3D_Head.morphTargetDictionary.mouthSmile] = 1
+        document.querySelector('#avatar').emit(`mouthSmile`)
       });
     }
   });
@@ -146,7 +190,20 @@
   >
   </a-entity>
   <a-asset-item id="theModel" src="models/Female_04_V01.glb" response-type="arraybuffer"></a-asset-item>
-  <a-entity id="avatar" gltf-model="#theModel" position="2 0 -2" traverse-object></a-entity>
+  <a-entity id="avatar" gltf-model="#theModel" position="2 0 -2" rotation="0 -30 0" character traverse-object
+  animation__smile="property: character.mouthSmile; to: 1.0; dur: 500; startEvents: mouthSmile"
+  animation__open="property: character.mouthOpen; to: 1.0; dur: 500; startEvents: mouthOpen"
+  animation__pucker="property: character.mouthPucker; to: 1.0; dur: 500; startEvents: mouthPucker"
+  animation__A="property: character.lipA; to: 1.0; dur: 10; startEvents: lipA"
+  animation__B="property: character.lipB; to: 1.0; dur: 10; startEvents: lipB"
+  animation__C="property: character.lipC; to: 1.0; dur: 10; startEvents: lipC"
+  animation__D="property: character.lipD; to: 1.0; dur: 10; startEvents: lipD"
+  animation__E="property: character.lipE; to: 1.0; dur: 10; startEvents: lipE"
+  animation__F="property: character.lipF; to: 1.0; dur: 10; startEvents: lipF"
+  animation__G="property: character.lipG; to: 1.0; dur: 10; startEvents: lipG"
+  animation__H="property: character.lipH; to: 1.0; dur: 10; startEvents: lipH"
+  animation__X="property: character.lipX; to: 1.0; dur: 10; startEvents: lipX"
+  ></a-entity>
   
   <a-entity id="rig" movement-controls="fly: false;">
     <a-camera id="camera"></a-camera>
