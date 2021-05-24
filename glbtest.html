@@ -50,9 +50,9 @@
   AFRAME.registerComponent('traverse-object', {
     init: function () {
       this.el.addEventListener('model-loaded', () => {
-        const obj = this.el.object3D.traverse
-        console.log("LOADED ", obj)
-        obj.traverse( obj => {
+        const mobj = this.el.object3D
+        console.log("LOADED ", mobj)
+        mobj.traverse( obj => {
           if (obj.material?.morphTargets) {
             window.morphs[obj.name] = obj
             console.log(obj.id, obj.name, obj.morphTargetDictionary)
