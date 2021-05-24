@@ -45,6 +45,27 @@
     }
   })
  
+  AFRAME.registerComponent('character', {
+    schema: {
+      color: {
+        default: '#EEEEEE'
+      },
+      mouthSmile: {
+        default: 0
+      },
+      mouthOpen: {
+        default: 0
+      },
+    },
+
+    init: function () {
+    },
+
+    update: function (oldData) {
+      const el = this.el
+    }
+  })
+  
   window.morphs = {}
  
   const morphMeshes = [];
