@@ -47,17 +47,27 @@
  
   window.morphs = {}
  
+  const morphMeshes = [];
+
   AFRAME.registerComponent('traverse-object', {
     init: function () {
       this.el.addEventListener('model-loaded', () => {
         const mobj = this.el.object3D
         console.log("LOADED ", mobj)
+        
+        mobj.traverse((node) => {
+          if (node.isMesh && node.morphTargetInfluences) {
+            morphMeshes.push(node);
+          }
+        }
+
         mobj.traverse( obj => {
           if (obj.material?.morphTargets) {
             window.morphs[obj.name] = obj
             console.log(obj.id, obj.name, obj.morphTargetDictionary)
           } 
-        });
+        })
+        morphs.Wolf3D_Head.morphTargetInfluences[morphs.Wolf3D_Head.morphTargetDictionary.mouthSmile] = 1
       });
     }
   });
