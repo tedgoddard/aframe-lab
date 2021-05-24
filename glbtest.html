@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<title>newt VR</title>
+<meta name="description" content="Newt VR">
+<script src="./aframe-v1.2.0.min.js"></script>
+<script src="./aframe-extras.controls-v6.1.1.min.js"></script>
+<script src="./klein.aframe.js"></script>
+</head>
+<body>
+<script>
+
+  let textDisplay = () => {}
+
+  onMouseDown = event => {
+    console.log("mouse down")
+  }
+
+  onMouseUp = event => {
+    console.log("mouse up")
+  }
+
+  AFRAME.registerComponent('setup', {
+    init: function () {
+      var sceneEl = this.el
+      const entityEl = sceneEl.querySelector('#blackBox')
+      entityEl.addEventListener('mouseup', onMouseUp)
+      entityEl.addEventListener('mousedown', onMouseDown)
+      entityEl.addEventListener('triggerup', onMouseUp)
+      entityEl.addEventListener('triggerdown', onMouseDown)
+
+      const textOut = sceneEl.querySelector('#textOut')
+      textDisplay = text => {
+        textOut.setAttribute("text", `anchor: left; width: 1.5; color: white; value: ${text}`)
+      }
+
+      const imageOut = sceneEl.querySelector('#imageOut')
+      imageDisplay = imageURL => {
+        imageOut.setAttribute("visible", `${!!imageURL}`)
+        imageOut.setAttribute("src", imageURL)
+      }
+
+    }
+  })
+</script>
+
+<a-scene setup>
+  <a-sky src="./images/kulli-kittus-LXUqxzlBzDk-unsplash.jpg" rotation="0 -130 0"></a-sky>
+  <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+
+  <a-box id="blackBox" position="-1 0.5 -3" rotation="0 45 0" color="#303030" 
+    animation="property: position; to: -1 0.3 -3; dur: 200; startEvents: mousedown" 
+    animation__reverse="property: position; to: -1 0.5 -3; dur: 200; startEvents: mouseup"
+    shadow>
+  </a-box>
+  <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
+  <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
+  <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+
+  <a-entity id="textOut" position="-0.4 1.5 -2"
+    text="anchor: left; width: 1.5; color: white; value: Welcome to Newt VR!">
+  </a-entity>
+  <a-image id="imageOut" visible="false" position="2 2 -3" width="2" rotation="0 -20 0"></a-image>
+
+  <a-entity id="newt" klein="color: brown; h: 0.3; w: 0.9;"
+    position="-1 3 -3" scale="0.15 0.15 0.15"
+    rotation="0 0 270"
+
+    animation__A1="property: klein.w; to: 0.9; dur: 10; startEvents: lipA"
+    animation__A2="property: klein.h; to: 0.2; dur: 10; startEvents: lipA"
+
+    animation__B1="property: klein.w; to: 1.0; dur: 10; startEvents: lipB"
+    animation__B2="property: klein.h; to: 0.2; dur: 10; startEvents: lipB"
+
+    animation__C1="property: klein.w; to: 0.8; dur: 10; startEvents: lipC"
+    animation__C2="property: klein.h; to: 0.2; dur: 10; startEvents: lipC"
+
+    animation__D1="property: klein.w; to: 1.0; dur: 10; startEvents: lipD"
+    animation__D2="property: klein.h; to: 0.0; dur: 10; startEvents: lipD"
+
+    animation__E1="property: klein.w; to: 0.7; dur: 10; startEvents: lipE"
+    animation__E2="property: klein.h; to: 0.2; dur: 10; startEvents: lipE"
+
+    animation__F1="property: klein.w; to: 0.5; dur: 10; startEvents: lipF"
+    animation__F2="property: klein.h; to: 0.5; dur: 10; startEvents: lipF"
+
+    animation__G1="property: klein.w; to: 0.9; dur: 10; startEvents: lipG"
+    animation__G2="property: klein.h; to: 0.2; dur: 10; startEvents: lipG"
+
+    animation__H1="property: klein.w; to: 1.0; dur: 10; startEvents: lipH"
+    animation__H2="property: klein.h; to: 0.2; dur: 10; startEvents: lipH"
+
+    animation__X1="property: klein.w; to: 0.9; dur: 10; startEvents: lipX"
+    animation__X2="property: klein.h; to: 0.2; dur: 10; startEvents: lipX"
+  >
+  </a-entity>
+
+
+  <a-entity id="rig" movement-controls="fly: false;">
+    <a-camera id="camera"></a-camera>
+    <a-entity laser-controls raycaster="lineColor: white; lineOpacity: 0.5"></a-entity>
+  </a-entity>
+
+</a-scene>
+
+
+</body>
+</html>
