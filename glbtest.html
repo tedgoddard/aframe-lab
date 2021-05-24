@@ -44,6 +44,21 @@
 
     }
   })
+  
+  AFRAME.registerComponent('traverse-object', {
+    init: function () {
+      this.el.addEventListener('model-loaded', () => {
+        const obj = this.el.getObject3D('mesh');
+        console.log("LOADED ", mesh)
+        obj.traverse(node => {
+          if (node.name.indexOf('ship') !== -1) {
+            node.material.color.set('red');
+          }
+        });
+      });
+    }
+  });
+
 </script>
 
 <a-scene setup>
@@ -97,7 +112,7 @@
   >
   </a-entity>
   <a-asset-item id="dudeModel" src="models/Male_01_V01.glb" response-type="arraybuffer"></a-asset-item>
-  <a-entity id="dude" gltf-model="#dudeModel"></a-entity>
+  <a-entity id="dude" gltf-model="#dudeModel" traverse-object></a-entity>
   
   <a-entity id="rig" movement-controls="fly: false;">
     <a-camera id="camera"></a-camera>
